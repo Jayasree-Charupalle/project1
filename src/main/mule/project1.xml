@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c0a9115c-f7e6-4ecd-b6a2-d546dc94d20b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="project1Flow" doc:id="5f05e178-3e1e-45b4-8387-4ea00b446626" >
+		<http:listener doc:name="Listener" doc:id="49852b93-a2df-4d3d-800f-02b9885708a7" config-ref="HTTP_Listener_config" path="/success"/>
+		<first-successful doc:name="First Successful" doc:id="f5bb3b24-dfb4-4834-adf3-e6d3650d0269" >
+			<route >
+				<set-payload value='#["display first routed successfully"]' doc:name="Set Payload" doc:id="aa63dcbc-0372-43a6-b85b-e5f6f944d0b8" />
+				<logger level="INFO" doc:name="Logger" doc:id="f7bf6de5-ac7b-4f81-b070-42a7bf4e509d" message="#[payload]"/>
+			</route>
+			<route >
+				<set-payload value='#["second routed"]' doc:name="Set Payload" doc:id="d707853a-f9e8-4263-aa4a-4374cf8bbf59" />
+				<logger level="INFO" doc:name="Logger" doc:id="6a265961-35c6-4028-9c3f-8683cc9e3a2c" message="#[payload]"/>
+			</route>
+		</first-successful>
+	</flow>
+</mule>
